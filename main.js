@@ -2,11 +2,30 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
 
+const errorDiv = document.querySelector('#modal')
+errorDiv.className = 'hidden'
 
-
-
+document.body.addEventListener('click', (event)=>{
+  if (event.target.matches('.like-glyph') && !event.target.matches('.activated-heart')){
+    const heart = event.target
+    mimicServerCall()
+    .then(object =>{
+      heart.textContent = FULL_HEART
+      heart.classList.add('activated-heart')
+    })
+    .catch(error=>{
+      errorDiv.classList.toggle('hidden')
+      setTimeout(()=>{
+        errorDiv.classList.toggle('hidden')
+      }, 5000)
+    })
+  } else if (event.target.textContent == FULL_HEART){
+    const heart = event.target
+    heart.classList.toggle('activated-heart')
+    heart.textContent = EMPTY_HEART
+  }
+})
 //------------------------------------------------------------------------------
 // Ignore after this point. Used only for demo purposes
 //------------------------------------------------------------------------------
